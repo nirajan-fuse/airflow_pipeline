@@ -14,9 +14,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import pickle
 
+
 DATA_PATH = "./data/Heart Attack.csv"
-MODEL_PATH = "./model/model.pkl"
 THRESHOLD = 0.90
+CURRENT_DATE = datetime.now().strftime("%Y-%m-%d")
+MODEL_PATH = os.path.join("./model/", f"model-{CURRENT_DATE}.pkl")
 
 default_args = {
     "depends_on_past": False,
