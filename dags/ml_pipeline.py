@@ -15,7 +15,7 @@ from sklearn.metrics import accuracy_score
 import pickle
 
 DATA_PATH = "./data/Heart Attack.csv"
-MODEL_PATH = "/model/model.pkl"
+MODEL_PATH = "./model/model.pkl"
 THRESHOLD = 0.90
 
 default_args = {
@@ -76,16 +76,16 @@ def heart_disease_prediction_pipeline():
         y = df["class"]
         # ti.xcom_push(key="X", value=X)
         # ti.xcom_push(key="y", value=y)
-        X.to_csv("/data/X.csv", index=False)
-        y.to_csv("/data/y.csv", index=False)
+        X.to_csv("./data/X.csv", index=False)
+        y.to_csv("./data/y.csv", index=False)
         print("X and y saved to /data directory")
 
     @task
     def train_model():
         # X = ti.xcom_pull(key="X", task_ids="preprocess_data")
         # y = ti.xcom_pull(key="y", task_ids="preprocess_data")
-        X = pd.read_csv("/data/X.csv")
-        y = pd.read_csv("/data/y.csv").squeeze()
+        X = pd.read_csv("./data/X.csv")
+        y = pd.read_csv("./data/y.csv").squeeze()
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
         model = RandomForestClassifier(n_estimators=100)
@@ -110,7 +110,7 @@ def heart_disease_prediction_pipeline():
         with open(MODEL_PATH, "rb") as file:
             model = pickle.load(file)
 
-        X = pd.read_csv("/data/X.csv")
+        X = pd.read_csv("./data/X.csv")
         # X = ti.xcom_pull(key="X", task_ids="preprocess_data")
 
         predictions = model.predict(X)
